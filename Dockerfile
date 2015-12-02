@@ -20,8 +20,11 @@ RUN apt-get update \
         make \
         patch \
         xmlstarlet \
+        php-pear \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+RUN pecl install pdo pdo_mysql -y
 
 # Download PHP 5.2.16, Suhosin patch, PHP-FPM patch
 #  - http://museum.php.net/php5/php-5.2.16.tar.bz2
@@ -42,6 +45,7 @@ RUN ./configure \
     --enable-fpm \
     --enable-mbstring \
     --enable-sockets \
+    --enable-pdo \
     --with-config-file-path=/etc/php \
     --with-curl \
     --with-fpm-conf=/etc/php/php-fpm.conf \
@@ -60,6 +64,7 @@ RUN ./configure \
     --with-pcre-regex \
     --with-png-dir \
     --with-zlib \
+    --with-pdo-mysql \
     --without-sqlite
 
 # Install
