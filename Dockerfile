@@ -35,6 +35,8 @@ WORKDIR /tmp/php-5.2.16
 RUN patch -p1 -i ../php-5.2.16-fpm-0.5.14.diff && \
     patch -p1 -i ../suhosin-patch-5.2.16-0.9.7.patch
 
+RUN mkdir -p /etc/php/conf.d
+
 # Configure
 RUN ./buildconf --force
 RUN ./configure \
@@ -43,6 +45,7 @@ RUN ./configure \
     --enable-mbstring \
     --enable-sockets \
     --with-config-file-path=/etc/php \
+    --with-config-file-scan-dir=/etc/php/conf.d \
     --with-curl \
     --with-fpm-conf=/etc/php/php-fpm.conf \
     --with-fpm-log=/var/log/php/php_errors.log \
